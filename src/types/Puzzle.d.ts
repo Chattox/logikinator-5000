@@ -10,3 +10,7 @@ export type LabelLinks = {
 export type Link = {
   [key: string]: boolean;
 };
+
+export type GameStateInput = {
+  [key: string]: string[];
+};
