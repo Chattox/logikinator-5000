@@ -1,5 +1,5 @@
 export type GameState = {
-  links: LabelLinks;
+  links: LabelLinks[];
   [key: string]: string[] | LabelLinks;
 };
 
@@ -13,4 +13,10 @@ export type Link = {
 
 export type GameStateInput = {
   [key: string]: string[];
+};
+
+export type LinkUpdate = {
+  label1: string;
+  label2: string;
+  link: boolean;
 };

@@ -1,5 +1,4 @@
-import { GameState, GameStateInput } from "../types/Puzzle";
-
+import { GameState, GameStateInput, LinkUpdate } from "../types/Puzzle";
 export class Puzzle {
   numCategories: number;
   numLabels: number;
@@ -8,13 +7,16 @@ export class Puzzle {
   constructor() {
     this.numCategories = 3;
     this.numLabels = 4;
-    this.gameState = { links: {} };
+    this.gameState = { links: [] };
   }
 
   createGameState(input: GameStateInput) {
     for (const category in input) {
       this.gameState[category] = input[category];
     }
-    console.log(this.gameState);
+  }
+
+  updateLink(update: LinkUpdate) {
+    return update;
   }
 }
