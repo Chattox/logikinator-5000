@@ -1,4 +1,4 @@
-import { GameState, GameStateInput, LinkUpdate } from "../types/Puzzle";
+import { GameState, GameStateInput, Link } from "../types/Puzzle";
 export class Puzzle {
   numCategories: number;
   numLabels: number;
@@ -10,13 +10,34 @@ export class Puzzle {
     this.gameState = { links: [] };
   }
 
-  createGameState(input: GameStateInput) {
+  /**
+   * Initialise game state with categories and labels from input
+   *
+   * @param {GameStateInput} input - Object containing game state
+   */
+  initGameState(input: GameStateInput) {
     for (const category in input) {
       this.gameState[category] = input[category];
     }
   }
 
-  updateLink(update: LinkUpdate) {
-    return update;
+  /**
+   * Create or update a link between 2 labels of different categories
+   *
+   * @param {Link} update - Object containing labels and the link between them
+   */
+  updateLink(update: Link) {
+    let updated = false;
+    if (this.gameState.links.length) {
+      this.gameState.links.forEach((link, i) => {
+        if (link.label1 === update.label1 && link.label2 === update.label2) {
+          this.gameState.links[i] = update;
+          updated = true;
+        }
+      });
+    }
+    if (!updated) {
+      this.gameState.links.push(update);
+    }
   }
 }

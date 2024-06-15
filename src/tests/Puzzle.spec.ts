@@ -16,14 +16,14 @@ describe("Puzzle class", () => {
         links: [],
       };
 
-      puzzle.createGameState(input);
+      puzzle.initGameState(input);
 
       expect(puzzle.gameState).toEqual(expected);
     });
   });
 
   describe("updateLink", () => {
-    it("creates a new link from given input", () => {
+    it("creates a new link", () => {
       const puzzle = new Puzzle();
       const puzzleInput = {
         suspects: ["red", "green", "blue"],
@@ -48,8 +48,44 @@ describe("Puzzle class", () => {
         ],
       };
 
-      puzzle.createGameState(puzzleInput);
+      puzzle.initGameState(puzzleInput);
       puzzle.updateLink(linkInput);
+
+      expect(puzzle.gameState).toEqual(expected);
+    });
+    it("updates an existing link", () => {
+      const puzzle = new Puzzle();
+      const puzzleInput = {
+        suspects: ["red", "green", "blue"],
+        murderWeapons: ["knife", "boat", "donkey"],
+        locations: ["the high seas", "forest", "library"],
+      };
+      const linkInput = {
+        label1: "red",
+        label2: "knife",
+        link: true,
+      };
+      const linkUpdate = {
+        label1: "red",
+        label2: "knife",
+        link: false,
+      };
+      const expected = {
+        suspects: ["red", "green", "blue"],
+        murderWeapons: ["knife", "boat", "donkey"],
+        locations: ["the high seas", "forest", "library"],
+        links: [
+          {
+            label1: "red",
+            label2: "knife",
+            link: false,
+          },
+        ],
+      };
+
+      puzzle.initGameState(puzzleInput);
+      puzzle.updateLink(linkInput);
+      puzzle.updateLink(linkUpdate);
 
       expect(puzzle.gameState).toEqual(expected);
     });
