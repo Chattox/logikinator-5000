@@ -40,4 +40,10 @@ export class Puzzle {
       this.gameState.links.push(update);
     }
   }
+
+  removeLink(rmLink: Link) {
+    if (this.gameState.links.length) {
+      this.gameState.links = this.gameState.links.filter((l) => l !== rmLink);
+    }
+  }
 }
