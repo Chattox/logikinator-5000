@@ -41,6 +41,11 @@ export class Puzzle {
     }
   }
 
+  /**
+   * Remove an existing link
+   *
+   * @param {Link} rmLink - Object containing link to be removed
+   */
   removeLink(rmLink: Link) {
     if (this.gameState.links.length) {
       this.gameState.links = this.gameState.links.filter((l) => l !== rmLink);
