@@ -86,4 +86,18 @@ export class Puzzle {
 
     this.outerGrid = newOuterGrid;
   };
+
+  /**
+   * Returns status of a given link
+   *
+   * @param {string} item1 - first item in link
+   * @param {string} item2 - second item in link
+   * @return {string} `"true"` | `"false"` | `"unset"`
+   */
+  getLink = (item1: string, item2: string) => {
+    const link = this.gameState.links.filter(
+      (link) => link.item1 === item1 && link.item2 === item2
+    );
+    return link.length > 0 ? link[0].link.toString() : "unset";
+  };
 }

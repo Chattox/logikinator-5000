@@ -114,4 +114,44 @@ describe("Puzzle class", () => {
       expect(puzzle.gameState).toEqual(expected);
     });
   });
+
+  describe("getLink", () => {
+    it("returns correct value when link exists", () => {
+      const puzzle = new Puzzle();
+      const puzzleInput = [
+        { name: "suspects", items: ["maroon", "cyan", "avocado"] },
+        { name: "murder weapons", items: ["knife", "log", "nuclear bomb"] },
+        { name: "locations", items: ["the moon", "music festival", "space"] },
+      ];
+      const linkInputTrue = {
+        item1: "maroon",
+        item2: "knife",
+        link: true,
+      };
+      const linkInputFalse = {
+        item1: "cyan",
+        item2: "log",
+        link: false,
+      };
+
+      puzzle.initCategories(puzzleInput);
+      puzzle.updateLink(linkInputTrue);
+      puzzle.updateLink(linkInputFalse);
+
+      expect(puzzle.getLink("maroon", "knife")).toBe("true");
+      expect(puzzle.getLink("cyan", "log")).toBe("false");
+    });
+    it("returns unset when link does not exist", () => {
+      const puzzle = new Puzzle();
+      const puzzleInput = [
+        { name: "suspects", items: ["maroon", "cyan", "avocado"] },
+        { name: "murder weapons", items: ["knife", "log", "nuclear bomb"] },
+        { name: "locations", items: ["the moon", "music festival", "space"] },
+      ];
+
+      puzzle.initCategories(puzzleInput);
+
+      expect(puzzle.getLink("avocado", "nuclear bomb")).toBe("unset");
+    });
+  });
 });
