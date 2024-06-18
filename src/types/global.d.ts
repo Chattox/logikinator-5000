@@ -1,16 +1,17 @@
 export declare global {
   type GameState = {
+    categories: Category[];
     links: Link[];
-    [key: string]: string[] | LabelLinks;
+  };
+
+  type Category = {
+    name: string;
+    items: string[];
   };
 
   type Link = {
-    label1: string;
-    label2: string;
+    item1: string;
+    item2: string;
     link: boolean;
-  };
-
-  type GameStateInput = {
-    [key: string]: string[];
   };
 }

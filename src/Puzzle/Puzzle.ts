@@ -1,36 +1,43 @@
-import { GameState, GameStateInput, Link } from "../types/Puzzle";
 export class Puzzle {
   numCategories: number;
-  numLabels: number;
+  numItems: number;
   gameState: GameState;
 
   constructor() {
     this.numCategories = 3;
-    this.numLabels = 4;
-    this.gameState = { links: [] };
+    this.numItems = 4;
+    this.gameState = { categories: [], links: [] };
   }
 
   /**
-   * Initialise game state with categories and labels from input
+   * Initialise game state with categories and items from input
    *
-   * @param {GameStateInput} input - Object containing game state
+   * @param {Category[]} input - Array containing initial grid layout
+   *
+   * @example
+   *  // input example
+   *  [
+   *    {name: "suspects", items: ["maroon", "cyan", "avocado"]},
+   *    {name: "murderWeapons", items: ["knife", "log", "nuclear bomb"]},
+   *    {name: "locations", items: ["the moon", "music festival", "space"]}
+   *  ]
    */
-  initGameState(input: GameStateInput) {
-    for (const category in input) {
-      this.gameState[category] = input[category];
-    }
+  initCategories(input: Category[]) {
+    this.numCategories = input.length;
+    this.numItems = input[0].items.length;
+    this.gameState.categories = input;
   }
 
   /**
-   * Create or update a link between 2 labels of different categories
+   * Create or update a link between 2 items of different categories
    *
-   * @param {Link} update - Object containing labels and the link between them
+   * @param {Link} update - Object containing items and the link between them
    */
   updateLink(update: Link) {
     let updated = false;
     if (this.gameState.links.length) {
       this.gameState.links.forEach((link, i) => {
-        if (link.label1 === update.label1 && link.label2 === update.label2) {
+        if (link.item1 === update.item1 && link.item2 === update.item2) {
           this.gameState.links[i] = update;
           updated = true;
         }
