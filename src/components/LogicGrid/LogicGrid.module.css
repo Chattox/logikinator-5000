@@ -1,0 +1,12 @@
+.cell {
+  border: 1px solid white;
+}
+
+.innerGridSquare {
+  border: 1px solid green;
+}
+
+.outerGridSquare {
+  width: fit-content;
+  border: 1px solid pink;
+}
