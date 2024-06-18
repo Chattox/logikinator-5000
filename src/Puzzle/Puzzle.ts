@@ -2,11 +2,13 @@ export class Puzzle {
   numCategories: number;
   numItems: number;
   gameState: GameState;
+  outerGrid: OuterGridRow[];
 
   constructor() {
     this.numCategories = 3;
     this.numItems = 4;
     this.gameState = { categories: [], links: [] };
+    this.outerGrid = [];
   }
 
   /**
@@ -58,4 +60,30 @@ export class Puzzle {
       this.gameState.links = this.gameState.links.filter((l) => l !== rmLink);
     }
   }
+
+  /**
+   * Create outer grid layout from categories
+   *
+   * Sets this.outerGrid to an array of OuterGridRows forming the layour of the outer grid squares
+   */
+  createOuterGrid = () => {
+    const newOuterGrid = [];
+    const yCategories = [...this.gameState.categories];
+
+    for (let i = 1; i < this.numCategories; i++) {
+      const outerGridRow: OuterGridRow = {
+        x: this.gameState.categories[i],
+        y: [],
+      };
+      for (let j = 0; j < this.numCategories; j++) {
+        if (j !== i && yCategories.includes(this.gameState.categories[j])) {
+          outerGridRow.y.push(this.gameState.categories[j]);
+        }
+      }
+      newOuterGrid.push(outerGridRow);
+      yCategories.splice(i, 1);
+    }
+
+    this.outerGrid = newOuterGrid;
+  };
 }

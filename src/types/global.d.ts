@@ -14,4 +14,9 @@ export declare global {
     item2: string;
     link: boolean;
   };
+
+  type OuterGridRow = {
+    x: Category;
+    y: Category[];
+  };
 }
