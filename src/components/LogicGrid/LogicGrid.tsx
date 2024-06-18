@@ -22,7 +22,7 @@ export const LogicGrid = (props: { puzzle: Puzzle }) => {
       const gridRow: JSX.Element[] = [];
       row.y.forEach((category, j) => {
         const gridSquare: JSX.Element[] =
-          i === 0 && j === 0 ? [<LogicGridCell item1="" item2="" />] : [];
+          i === 0 && j === 0 ? [<Box h="4rem" w="4rem" />] : [];
         if (i === 0) {
           labels.x[j].forEach((label) => gridSquare.push(label));
         }
