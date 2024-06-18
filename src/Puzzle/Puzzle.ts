@@ -68,11 +68,14 @@ export class Puzzle {
    */
   createOuterGrid = () => {
     const newOuterGrid = [];
+    const xCategories: Category[] = [...this.gameState.categories];
+    xCategories.shift();
+    console.log(xCategories);
     const yCategories = [...this.gameState.categories];
 
-    for (let i = 1; i < this.numCategories; i++) {
+    for (let i = 0; i < this.numCategories - 1; i++) {
       const outerGridRow: OuterGridRow = {
-        x: this.gameState.categories[i],
+        x: xCategories[i],
         y: [],
       };
       for (let j = 0; j < this.numCategories; j++) {
@@ -81,8 +84,10 @@ export class Puzzle {
         }
       }
       newOuterGrid.push(outerGridRow);
-      yCategories.splice(i, 1);
+      yCategories.pop();
+      // console.log(yCategories);
     }
+    console.log(newOuterGrid);
 
     this.outerGrid = newOuterGrid;
   };

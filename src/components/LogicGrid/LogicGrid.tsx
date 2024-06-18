@@ -9,6 +9,7 @@ export const LogicGrid = (props: { puzzle: Puzzle }) => {
   const testSetup = [
     { name: "suspects", items: ["maroon", "cyan", "avocado"] },
     { name: "murder weapons", items: ["knife", "log", "nuclear bomb"] },
+    { name: "motives", items: ["revenge", "love", "the memes"] },
     { name: "locations", items: ["the moon", "music festival", "space"] },
   ];
 
@@ -31,7 +32,9 @@ export const LogicGrid = (props: { puzzle: Puzzle }) => {
             gridSquare.push(labels.y[i][k]);
           }
           category.items.forEach((yItem) => {
-            gridSquare.push(<LogicGridCell item1={xItem} item2={yItem} />);
+            gridSquare.push(
+              <LogicGridCell item1={xItem} item2={yItem} puzzle={puzzle} />
+            );
           });
         });
         gridRow.push(
