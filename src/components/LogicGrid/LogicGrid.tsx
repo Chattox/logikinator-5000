@@ -1,6 +1,6 @@
-import { Grid } from "@mantine/core";
+import { Box, Flex, Grid } from "@mantine/core";
 import { Puzzle } from "../../Puzzle/Puzzle";
-import classes from "./LogicGrid.module.css";
+import { LogicGridCell } from "./LogicGridCell";
 
 export const LogicGrid = (props: { puzzle: Puzzle }) => {
   const puzzle = props.puzzle;
@@ -15,41 +15,29 @@ export const LogicGrid = (props: { puzzle: Puzzle }) => {
 
   puzzle.createOuterGrid();
 
-  const grid: JSX.Element[][] = [];
+  const grid: JSX.Element[] = [];
   puzzle.outerGrid.forEach((row) => {
-    const gridSquareRows: JSX.Element[] = [];
+    const gridRow: JSX.Element[] = [];
     row.y.forEach((category) => {
       const gridSquare: JSX.Element[] = [];
       row.x.items.forEach((xItem) => {
         category.items.forEach((yItem) => {
-          gridSquare.push(
-            <Grid.Col span={1} className={classes.cell}>
-              {xItem}/{yItem}
-            </Grid.Col>
-          );
+          gridSquare.push(<LogicGridCell item1={xItem} item2={yItem} />);
         });
       });
-      console.log(gridSquare);
-      gridSquareRows.push(
-        <Grid.Col span={1}>
-          <Grid columns={puzzle.numItems} className={classes.innerGridSquare}>
-            {gridSquare}
-          </Grid>
-        </Grid.Col>
+      gridRow.push(
+        <Grid
+          columns={puzzle.numItems}
+          gutter={0}
+          w={`${4 * puzzle.numItems}rem`}
+          h={`${4 * puzzle.numItems}rem`}
+        >
+          {gridSquare}
+        </Grid>
       );
     });
-    grid.push(gridSquareRows);
+    grid.push(<Flex gap={0}>{gridRow}</Flex>);
   });
 
-  const gridDisplay = grid.map((row, i) => (
-    <Grid
-      columns={puzzle.numCategories - (i + 1)}
-      gutter={0}
-      className={classes.outerGridSquare}
-    >
-      {row}
-    </Grid>
-  ));
-
-  return <>{gridDisplay}</>;
+  return <Box>{grid}</Box>;
 };

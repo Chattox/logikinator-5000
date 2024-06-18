@@ -1,12 +1,11 @@
-.cell {
-  border: 1px solid white;
-}
-
-.innerGridSquare {
-  border: 1px solid green;
-}
-
-.outerGridSquare {
+.gridSquare {
   width: fit-content;
-  border: 1px solid pink;
+}
+
+.gridSquareInner {
+  /* height: 100%; */
+}
+
+.grid {
+  height: 100%;
 }
