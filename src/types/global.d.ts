@@ -16,7 +16,7 @@ export declare global {
   };
 
   type OuterGridRow = {
-    x: Category;
-    y: Category[];
+    row: Category;
+    col: Category[];
   };
 }

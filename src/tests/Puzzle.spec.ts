@@ -115,6 +115,59 @@ describe("Puzzle class", () => {
     });
   });
 
+  describe("createOuterGrid", () => {
+    it("creates correct outer grid", () => {
+      const puzzle = new Puzzle();
+      const puzzleInput = [
+        { name: "suspects", items: ["maroon", "cyan", "avocado"] },
+        { name: "murder weapons", items: ["knife", "log", "nuclear bomb"] },
+        { name: "locations", items: ["the moon", "music festival", "space"] },
+        { name: "motives", items: ["revenge", "love", "the memes"] },
+      ];
+      const expected = [
+        {
+          row: {
+            name: "murder weapons",
+            items: ["knife", "log", "nuclear bomb"],
+          },
+          col: [
+            { name: "suspects", items: ["maroon", "cyan", "avocado"] },
+            {
+              name: "locations",
+              items: ["the moon", "music festival", "space"],
+            },
+            { name: "motives", items: ["revenge", "love", "the memes"] },
+          ],
+        },
+        {
+          row: {
+            name: "motives",
+            items: ["revenge", "love", "the memes"],
+          },
+          col: [
+            { name: "suspects", items: ["maroon", "cyan", "avocado"] },
+            {
+              name: "locations",
+              items: ["the moon", "music festival", "space"],
+            },
+          ],
+        },
+        {
+          row: {
+            name: "locations",
+            items: ["the moon", "music festival", "space"],
+          },
+          col: [{ name: "suspects", items: ["maroon", "cyan", "avocado"] }],
+        },
+      ];
+
+      puzzle.initCategories(puzzleInput);
+      puzzle.createOuterGrid();
+
+      expect(puzzle.outerGrid).toEqual(expected);
+    });
+  });
+
   describe("getLink", () => {
     it("returns correct value when link exists", () => {
       const puzzle = new Puzzle();

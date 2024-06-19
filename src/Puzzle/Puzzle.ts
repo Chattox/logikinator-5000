@@ -68,27 +68,34 @@ export class Puzzle {
    */
   createOuterGrid = () => {
     const newOuterGrid = [];
-    const xCategories: Category[] = [...this.gameState.categories];
-    xCategories.shift();
-    console.log(xCategories);
-    const yCategories = [...this.gameState.categories];
+    // For the column axis, remove the 2nd element as this will be the first element of the row axis
+    const colCategories: Category[] = [...this.gameState.categories];
+    colCategories.splice(1, 1);
 
+    // For the row axis, remove the first element as that's the first element of the column axis, then reverse everything but the
+    // new first element
+    const rowCategories = [...this.gameState.categories];
+    rowCategories.splice(0, 1);
+    const firstYElem = rowCategories.shift();
+    rowCategories.reverse();
+    rowCategories.unshift(firstYElem!);
+
+    // Create each row from the top down
     for (let i = 0; i < this.numCategories - 1; i++) {
       const outerGridRow: OuterGridRow = {
-        x: xCategories[i],
-        y: [],
+        row: rowCategories[i],
+        col: [],
       };
+      // Add each column still remaining to the row
       for (let j = 0; j < this.numCategories; j++) {
-        if (j !== i && yCategories.includes(this.gameState.categories[j])) {
-          outerGridRow.y.push(this.gameState.categories[j]);
+        if (colCategories.includes(this.gameState.categories[j])) {
+          outerGridRow.col.push(this.gameState.categories[j]);
         }
       }
       newOuterGrid.push(outerGridRow);
-      yCategories.pop();
-      // console.log(yCategories);
+      // Remove the last category from colCategories to avoid repeated grid squares
+      colCategories.pop();
     }
-    console.log(newOuterGrid);
-
     this.outerGrid = newOuterGrid;
   };
 

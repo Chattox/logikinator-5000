@@ -9,31 +9,38 @@ export const LogicGrid = (props: { puzzle: Puzzle }) => {
   const testSetup = [
     { name: "suspects", items: ["maroon", "cyan", "avocado"] },
     { name: "murder weapons", items: ["knife", "log", "nuclear bomb"] },
-    { name: "motives", items: ["revenge", "love", "the memes"] },
     { name: "locations", items: ["the moon", "music festival", "space"] },
+    { name: "motives", items: ["revenge", "love", "the memes"] },
   ];
 
   puzzle.initCategories(testSetup);
 
   puzzle.createOuterGrid();
 
-  const generateGrid = (labels: { x: JSX.Element[][]; y: JSX.Element[][] }) => {
+  const generateGrid = (labels: {
+    col: JSX.Element[][];
+    row: JSX.Element[][];
+  }) => {
     const grid: JSX.Element[] = [];
     puzzle.outerGrid.forEach((row, i) => {
+      // Create each row as a Flex containing multiple individual Grid squares
       const gridRow: JSX.Element[] = [];
-      row.y.forEach((category, j) => {
+      row.col.forEach((category, j) => {
         const gridSquare: JSX.Element[] =
+          // Very first cell is blank to allow for axis labels
           i === 0 && j === 0 ? [<Box h="4rem" w="4rem" />] : [];
+        // For first row include column labels
         if (i === 0) {
-          labels.x[j].forEach((label) => gridSquare.push(label));
+          labels.col[j].forEach((label) => gridSquare.push(label));
         }
-        row.x.items.forEach((xItem, k) => {
+        row.row.items.forEach((rowItem, k) => {
+          // For first column include row labels
           if (j === 0) {
-            gridSquare.push(labels.y[i][k]);
+            gridSquare.push(labels.row[i][k]);
           }
-          category.items.forEach((yItem) => {
+          category.items.forEach((colItem) => {
             gridSquare.push(
-              <LogicGridCell item1={xItem} item2={yItem} puzzle={puzzle} />
+              <LogicGridCell item1={rowItem} item2={colItem} puzzle={puzzle} />
             );
           });
         });
@@ -55,17 +62,17 @@ export const LogicGrid = (props: { puzzle: Puzzle }) => {
   };
 
   const generateLabels = () => {
-    const xLabels = puzzle.outerGrid[0].y.map((category) =>
-      category.items.map((item) => <LogicGridLabel label={item} axis="x" />)
+    const colLabels = puzzle.outerGrid[0].col.map((category) =>
+      category.items.map((item) => <LogicGridLabel label={item} axis="col" />)
     );
-    const yLabels = puzzle.outerGrid.map((row) =>
-      row.x.items.map((item) => <LogicGridLabel label={item} axis="y" />)
+    const rowLabels = puzzle.outerGrid.map((row) =>
+      row.row.items.map((item) => <LogicGridLabel label={item} axis="row" />)
     );
 
-    return { xLabels, yLabels };
+    return { rowLabels, colLabels };
   };
 
-  const { xLabels, yLabels } = generateLabels();
+  const { rowLabels, colLabels } = generateLabels();
 
-  return <Box>{generateGrid({ x: xLabels, y: yLabels })}</Box>;
+  return <Box>{generateGrid({ col: colLabels, row: rowLabels })}</Box>;
 };
