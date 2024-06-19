@@ -57,7 +57,14 @@ export class Puzzle {
    */
   removeLink(rmLink: Link) {
     if (this.gameState.links.length) {
-      this.gameState.links = this.gameState.links.filter((l) => l !== rmLink);
+      this.gameState.links = this.gameState.links.filter((l) => {
+        return (
+          l.item1 !== rmLink.item1 &&
+          l.item2 &&
+          rmLink.item2 &&
+          l.link !== rmLink.link
+        );
+      });
     }
   }
 
