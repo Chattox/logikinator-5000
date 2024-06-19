@@ -1,11 +1,15 @@
 import { LogicGrid } from "../LogicGrid";
 import { Puzzle } from "../../Puzzle/Puzzle";
-import { Container } from "@mantine/core";
+import { Box, Center } from "@mantine/core";
+import { GridSettings } from "../GridSettings";
 
 export const MainContainer = (props: { puzzle: Puzzle }) => {
   return (
-    <Container>
-      <LogicGrid puzzle={props.puzzle} />
-    </Container>
+    <Center>
+      <Box>
+        <GridSettings puzzle={props.puzzle} />
+        <LogicGrid puzzle={props.puzzle} />
+      </Box>
+    </Center>
   );
 };
