@@ -4,19 +4,21 @@ describe("Puzzle class", () => {
   describe("createGameState", () => {
     it("creates gameState from given input", () => {
       const puzzle = new Puzzle();
-      const input = {
-        suspects: ["red", "green", "blue"],
-        murderWeapons: ["knife", "boat", "donkey"],
-        locations: ["the high seas", "forest", "library"],
-      };
+      const input = [
+        { name: "suspects", items: ["maroon", "cyan", "avocado"] },
+        { name: "murder weapons", items: ["knife", "log", "nuclear bomb"] },
+        { name: "locations", items: ["the moon", "music festival", "space"] },
+      ];
       const expected = {
-        suspects: ["red", "green", "blue"],
-        murderWeapons: ["knife", "boat", "donkey"],
-        locations: ["the high seas", "forest", "library"],
+        categories: [
+          { name: "suspects", items: ["maroon", "cyan", "avocado"] },
+          { name: "murder weapons", items: ["knife", "log", "nuclear bomb"] },
+          { name: "locations", items: ["the moon", "music festival", "space"] },
+        ],
         links: [],
       };
 
-      puzzle.initGameState(input);
+      puzzle.initCategories(input);
 
       expect(puzzle.gameState).toEqual(expected);
     });
@@ -25,65 +27,57 @@ describe("Puzzle class", () => {
   describe("updateLink", () => {
     it("creates a new link", () => {
       const puzzle = new Puzzle();
-      const puzzleInput = {
-        suspects: ["red", "green", "blue"],
-        murderWeapons: ["knife", "boat", "donkey"],
-        locations: ["the high seas", "forest", "library"],
-      };
+      const puzzleInput = [
+        { name: "suspects", items: ["maroon", "cyan", "avocado"] },
+        { name: "murder weapons", items: ["knife", "log", "nuclear bomb"] },
+        { name: "locations", items: ["the moon", "music festival", "space"] },
+      ];
       const linkInput = {
-        label1: "red",
-        label2: "knife",
+        item1: "maroon",
+        item2: "knife",
         link: true,
       };
       const expected = {
-        suspects: ["red", "green", "blue"],
-        murderWeapons: ["knife", "boat", "donkey"],
-        locations: ["the high seas", "forest", "library"],
-        links: [
-          {
-            label1: "red",
-            label2: "knife",
-            link: true,
-          },
+        categories: [
+          { name: "suspects", items: ["maroon", "cyan", "avocado"] },
+          { name: "murder weapons", items: ["knife", "log", "nuclear bomb"] },
+          { name: "locations", items: ["the moon", "music festival", "space"] },
         ],
+        links: [{ item1: "maroon", item2: "knife", link: true }],
       };
 
-      puzzle.initGameState(puzzleInput);
+      puzzle.initCategories(puzzleInput);
       puzzle.updateLink(linkInput);
 
       expect(puzzle.gameState).toEqual(expected);
     });
     it("updates an existing link", () => {
       const puzzle = new Puzzle();
-      const puzzleInput = {
-        suspects: ["red", "green", "blue"],
-        murderWeapons: ["knife", "boat", "donkey"],
-        locations: ["the high seas", "forest", "library"],
-      };
+      const puzzleInput = [
+        { name: "suspects", items: ["maroon", "cyan", "avocado"] },
+        { name: "murder weapons", items: ["knife", "log", "nuclear bomb"] },
+        { name: "locations", items: ["the moon", "music festival", "space"] },
+      ];
       const linkInput = {
-        label1: "red",
-        label2: "knife",
+        item1: "maroon",
+        item2: "knife",
         link: true,
       };
       const linkUpdate = {
-        label1: "red",
-        label2: "knife",
+        item1: "maroon",
+        item2: "knife",
         link: false,
       };
       const expected = {
-        suspects: ["red", "green", "blue"],
-        murderWeapons: ["knife", "boat", "donkey"],
-        locations: ["the high seas", "forest", "library"],
-        links: [
-          {
-            label1: "red",
-            label2: "knife",
-            link: false,
-          },
+        categories: [
+          { name: "suspects", items: ["maroon", "cyan", "avocado"] },
+          { name: "murder weapons", items: ["knife", "log", "nuclear bomb"] },
+          { name: "locations", items: ["the moon", "music festival", "space"] },
         ],
+        links: [{ item1: "maroon", item2: "knife", link: false }],
       };
 
-      puzzle.initGameState(puzzleInput);
+      puzzle.initCategories(puzzleInput);
       puzzle.updateLink(linkInput);
       puzzle.updateLink(linkUpdate);
 
@@ -94,28 +88,123 @@ describe("Puzzle class", () => {
   describe("removeLink", () => {
     it("removes an existing link", () => {
       const puzzle = new Puzzle();
-      const puzzleInput = {
-        suspects: ["red", "green", "blue"],
-        murderWeapons: ["knife", "boat", "donkey"],
-        locations: ["the high seas", "forest", "library"],
-      };
+      const puzzleInput = [
+        { name: "suspects", items: ["maroon", "cyan", "avocado"] },
+        { name: "murder weapons", items: ["knife", "log", "nuclear bomb"] },
+        { name: "locations", items: ["the moon", "music festival", "space"] },
+      ];
       const linkInput = {
-        label1: "red",
-        label2: "knife",
+        item1: "maroon",
+        item2: "knife",
         link: true,
       };
       const expected = {
-        suspects: ["red", "green", "blue"],
-        murderWeapons: ["knife", "boat", "donkey"],
-        locations: ["the high seas", "forest", "library"],
+        categories: [
+          { name: "suspects", items: ["maroon", "cyan", "avocado"] },
+          { name: "murder weapons", items: ["knife", "log", "nuclear bomb"] },
+          { name: "locations", items: ["the moon", "music festival", "space"] },
+        ],
         links: [],
       };
 
-      puzzle.initGameState(puzzleInput);
+      puzzle.initCategories(puzzleInput);
       puzzle.updateLink(linkInput);
       puzzle.removeLink(linkInput);
 
       expect(puzzle.gameState).toEqual(expected);
+    });
+  });
+
+  describe("createOuterGrid", () => {
+    it("creates correct outer grid", () => {
+      const puzzle = new Puzzle();
+      const puzzleInput = [
+        { name: "suspects", items: ["maroon", "cyan", "avocado"] },
+        { name: "murder weapons", items: ["knife", "log", "nuclear bomb"] },
+        { name: "locations", items: ["the moon", "music festival", "space"] },
+        { name: "motives", items: ["revenge", "love", "the memes"] },
+      ];
+      const expected = [
+        {
+          row: {
+            name: "murder weapons",
+            items: ["knife", "log", "nuclear bomb"],
+          },
+          col: [
+            { name: "suspects", items: ["maroon", "cyan", "avocado"] },
+            {
+              name: "locations",
+              items: ["the moon", "music festival", "space"],
+            },
+            { name: "motives", items: ["revenge", "love", "the memes"] },
+          ],
+        },
+        {
+          row: {
+            name: "motives",
+            items: ["revenge", "love", "the memes"],
+          },
+          col: [
+            { name: "suspects", items: ["maroon", "cyan", "avocado"] },
+            {
+              name: "locations",
+              items: ["the moon", "music festival", "space"],
+            },
+          ],
+        },
+        {
+          row: {
+            name: "locations",
+            items: ["the moon", "music festival", "space"],
+          },
+          col: [{ name: "suspects", items: ["maroon", "cyan", "avocado"] }],
+        },
+      ];
+
+      puzzle.initCategories(puzzleInput);
+      puzzle.createOuterGrid();
+
+      expect(puzzle.outerGrid).toEqual(expected);
+    });
+  });
+
+  describe("getLink", () => {
+    it("returns correct value when link exists", () => {
+      const puzzle = new Puzzle();
+      const puzzleInput = [
+        { name: "suspects", items: ["maroon", "cyan", "avocado"] },
+        { name: "murder weapons", items: ["knife", "log", "nuclear bomb"] },
+        { name: "locations", items: ["the moon", "music festival", "space"] },
+      ];
+      const linkInputTrue = {
+        item1: "maroon",
+        item2: "knife",
+        link: true,
+      };
+      const linkInputFalse = {
+        item1: "cyan",
+        item2: "log",
+        link: false,
+      };
+
+      puzzle.initCategories(puzzleInput);
+      puzzle.updateLink(linkInputTrue);
+      puzzle.updateLink(linkInputFalse);
+
+      expect(puzzle.getLink("maroon", "knife")).toBe("true");
+      expect(puzzle.getLink("cyan", "log")).toBe("false");
+    });
+    it("returns unset when link does not exist", () => {
+      const puzzle = new Puzzle();
+      const puzzleInput = [
+        { name: "suspects", items: ["maroon", "cyan", "avocado"] },
+        { name: "murder weapons", items: ["knife", "log", "nuclear bomb"] },
+        { name: "locations", items: ["the moon", "music festival", "space"] },
+      ];
+
+      puzzle.initCategories(puzzleInput);
+
+      expect(puzzle.getLink("avocado", "nuclear bomb")).toBe("unset");
     });
   });
 });

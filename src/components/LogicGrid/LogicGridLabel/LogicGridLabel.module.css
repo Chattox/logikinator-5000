@@ -1,0 +1,13 @@
+.colLabel {
+  width: 4rem;
+  height: 4rem;
+  text-align: center;
+  white-space: nowrap;
+  transform: rotate(-45deg);
+  padding: 1.5rem 0 0 0.5rem;
+}
+
+.rowLabel {
+  height: 4rem;
+  width: 4rem;
+}
