@@ -7,10 +7,20 @@ export const LogicGridCell = (props: {
   item2: string;
   puzzle: Puzzle;
 }) => {
+  const getLinkIcon = () => {
+    const link = props.puzzle.getLink(props.item1, props.item2);
+
+    if (link === "true") {
+      return "✅";
+    } else if (link === "false") {
+      return "❌";
+    } else {
+      return " ";
+    }
+  };
   return (
     <Grid.Col span={1} className={classes.cell}>
-      {/* {props.puzzle.getLink(props.item1, props.item2)} */}
-      {props.item1.slice(0, 3)}/{props.item2.slice(0, 3)}
+      {getLinkIcon()}
     </Grid.Col>
   );
 };

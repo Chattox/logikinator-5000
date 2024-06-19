@@ -15,6 +15,14 @@ export const LogicGrid = (props: { puzzle: Puzzle }) => {
 
   puzzle.initCategories(testSetup);
 
+  puzzle.updateLink({ item1: "maroon", item2: "knife", link: true });
+  puzzle.updateLink({
+    item1: "music festival",
+    item2: "nuclear bomb",
+    link: true,
+  });
+  puzzle.updateLink({ item1: "avocado", item2: "love", link: false });
+
   puzzle.createOuterGrid();
 
   const generateGrid = (labels: {
@@ -40,7 +48,7 @@ export const LogicGrid = (props: { puzzle: Puzzle }) => {
           }
           category.items.forEach((colItem) => {
             gridSquare.push(
-              <LogicGridCell item1={rowItem} item2={colItem} puzzle={puzzle} />
+              <LogicGridCell item1={colItem} item2={rowItem} puzzle={puzzle} />
             );
           });
         });
