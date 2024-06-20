@@ -5,10 +5,20 @@ export class Puzzle {
   outerGrid: OuterGridRow[];
 
   constructor() {
-    this.numCategories = 3;
-    this.numItems = 4;
-    this.gameState = { categories: [], links: [] };
+    this.numCategories = 4;
+    this.numItems = 3;
+    this.gameState = {
+      categories: [
+        { name: "Suspects", items: ["Maroon", "Cyan", "Avocado"] },
+        { name: "Murder Weapons", items: ["Knife", "Log", "Inflatable duck"] },
+        { name: "Locations", items: ["The Moon", "Music Festival", "Space"] },
+        { name: "Motives", items: ["Revenge", "Love", "The memes"] },
+      ],
+      links: [],
+    };
     this.outerGrid = [];
+
+    this.createOuterGrid();
   }
 
   /**

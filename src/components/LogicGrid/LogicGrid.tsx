@@ -6,25 +6,6 @@ import { LogicGridLabel } from "./LogicGridLabel";
 export const LogicGrid = (props: { puzzle: Puzzle }) => {
   const puzzle = props.puzzle;
 
-  const testSetup = [
-    { name: "suspects", items: ["maroon", "cyan", "avocado"] },
-    { name: "murder weapons", items: ["knife", "log", "nuclear bomb"] },
-    { name: "locations", items: ["the moon", "music festival", "space"] },
-    { name: "motives", items: ["revenge", "love", "the memes"] },
-  ];
-
-  puzzle.initCategories(testSetup);
-
-  puzzle.updateLink({ item1: "maroon", item2: "knife", link: true });
-  puzzle.updateLink({
-    item1: "music festival",
-    item2: "nuclear bomb",
-    link: true,
-  });
-  puzzle.updateLink({ item1: "avocado", item2: "love", link: false });
-
-  puzzle.createOuterGrid();
-
   const generateGrid = (labels: {
     col: JSX.Element[][];
     row: JSX.Element[][];
