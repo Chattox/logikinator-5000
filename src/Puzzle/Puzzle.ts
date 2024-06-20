@@ -3,6 +3,7 @@ export class Puzzle {
   numItems: number;
   gameState: GameState;
   outerGrid: OuterGridRow[];
+  categoryNames: string[];
 
   constructor() {
     this.numCategories = 4;
@@ -17,6 +18,7 @@ export class Puzzle {
       links: [],
     };
     this.outerGrid = [];
+    this.categoryNames = ["Suspects", "Murder Weapons", "Locations", "Motives"];
 
     this.createOuterGrid();
   }
@@ -38,6 +40,7 @@ export class Puzzle {
     this.numCategories = input.length;
     this.numItems = input[0].items.length;
     this.gameState.categories = input;
+    this.categoryNames = input.map((cat) => cat.name);
   }
 
   /**
