@@ -3,4 +3,5 @@
   width: 4rem;
   max-width: 4rem;
   height: 4rem;
+  user-select: none;
 }
