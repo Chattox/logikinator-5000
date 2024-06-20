@@ -2,9 +2,15 @@ import { Box, Flex, Grid } from "@mantine/core";
 import { Puzzle } from "../../Puzzle/Puzzle";
 import { LogicGridCell } from "./LogicGridCell";
 import { LogicGridLabel } from "./LogicGridLabel";
+import { useEffect } from "react";
 
-export const LogicGrid = (props: { puzzle: Puzzle }) => {
+export const LogicGrid = (props: {
+  puzzle: Puzzle;
+  outerGrid: OuterGridRow[];
+}) => {
   const puzzle = props.puzzle;
+
+  useEffect(() => {}, [props.outerGrid]);
 
   const generateGrid = (labels: {
     col: JSX.Element[][];
