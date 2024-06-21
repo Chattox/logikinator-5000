@@ -1,7 +1,9 @@
 import {
   Box,
   Button,
+  Group,
   NativeSelect,
+  NumberInput,
   SegmentedControl,
   TextInput,
 } from "@mantine/core";
@@ -21,6 +23,8 @@ export const GridSettings = (props: {
     name: puzzle.gameState.categories[0].name,
     index: 0,
   });
+  const [numCategories, setNumCategories] = useState(puzzle.numCategories);
+  const [numItems, setNumItems] = useState(puzzle.numItems);
 
   const form = useForm({
     mode: "uncontrolled",
@@ -41,21 +45,58 @@ export const GridSettings = (props: {
     setItemCategory(newItemCategory);
   };
 
+  const handleNumCategoriesChange = (val: string | number) => {
+    const newNumCategories = Number(val);
+    setNumCategories(newNumCategories);
+    if (newNumCategories > form.getValues().categories.length) {
+      const newValues = form.getValues();
+      newValues.categories.push({ name: "", items: [] });
+      form.setValues(newValues);
+    }
+  };
+
   const handleOnSubmit = (values: { categories: Category[] }) => {
+    // Trim from end of category and item arrays if numCategories/numItems now smaller than previous
+    while (values.categories.length > numCategories) {
+      values.categories.pop();
+    }
+    values.categories.forEach((category) => {
+      while (category.items.length > numItems) {
+        category.items.pop();
+      }
+    });
     puzzle.initCategories(values.categories);
     puzzle.createOuterGrid();
     props.setOuterGrid(puzzle.outerGrid);
   };
 
-  const categoryFields = form
-    .getValues()
-    .categories.map((category, i) => (
-      <TextInput
-        placeholder={`${category.name}`}
-        key={form.key(`categories.${i}.name`)}
-        {...form.getInputProps(`categories.${i}.name`)}
-      />
-    ));
+  const generateCategoryFields = () => {
+    const catFields = [];
+    for (let i = 0; i < numCategories; i++) {
+      catFields.push(
+        <TextInput
+          key={form.key(`categories.${i}.name`)}
+          {...form.getInputProps(`categories.${i}.name`)}
+        />
+      );
+    }
+    return catFields;
+  };
+
+  const generateItemFields = () => {
+    const itemFields = [];
+    for (let i = 0; i < numItems; i++) {
+      itemFields.push(
+        <TextInput
+          key={form.key(`categories.${itemCategory.index}.items.${i}`)}
+          {...form.getInputProps(`categories.${itemCategory.index}.items.${i}`)}
+        />
+      );
+    }
+    return itemFields;
+  };
+
+  const categoryFields = generateCategoryFields();
 
   const itemFields = (
     <>
@@ -64,23 +105,33 @@ export const GridSettings = (props: {
         onChange={handleItemCategoryChange}
         data={form.getValues().categories.map((cat) => cat.name)}
       />
-      {form.getValues().categories[itemCategory.index].items.map((item, i) => (
-        <TextInput
-          placeholder={`${item}`}
-          key={form.key(`categories.${itemCategory.index}.items.${i}`)}
-          {...form.getInputProps(`categories.${itemCategory.index}.items.${i}`)}
-        />
-      ))}
+      {generateItemFields()}
     </>
   );
 
   return (
     <Box className={classes.settingsContainer}>
-      <SegmentedControl
-        value={formState}
-        onChange={setFormState}
-        data={["categories", "items"]}
-      />
+      <Group>
+        <SegmentedControl
+          value={formState}
+          onChange={setFormState}
+          data={["categories", "items"]}
+        />
+        <NumberInput
+          label={`No. of categories`}
+          min={2}
+          clampBehavior="strict"
+          value={numCategories}
+          onChange={handleNumCategoriesChange}
+        />
+        <NumberInput
+          label={`No. of items`}
+          min={2}
+          clampBehavior="strict"
+          value={numItems}
+          onChange={(val) => setNumItems(Number(val))}
+        />
+      </Group>
       <form onSubmit={form.onSubmit(handleOnSubmit)}>
         {formState === "categories" ? categoryFields : itemFields}
         <Button type="submit">Generate</Button>
