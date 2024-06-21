@@ -1,6 +1,6 @@
 .colLabel {
-  width: 4rem;
-  height: 4rem;
+  width: var(--mantine-gridSizing-gridCell);
+  height: var(--mantine-gridSizing-gridCell);
   text-align: center;
   white-space: nowrap;
   transform: rotate(-45deg);
@@ -8,6 +8,6 @@
 }
 
 .rowLabel {
-  height: 4rem;
-  width: 4rem;
+  height: var(--mantine-gridSizing-gridCell);
+  width: var(--mantine-gridSizing-gridCell);
 }

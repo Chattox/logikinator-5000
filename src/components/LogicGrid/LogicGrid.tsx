@@ -3,6 +3,7 @@ import { Puzzle } from "../../Puzzle/Puzzle";
 import { LogicGridCell } from "./LogicGridCell";
 import { LogicGridLabel } from "./LogicGridLabel";
 import { useEffect } from "react";
+import classes from "./LogicGrid.module.css";
 
 export const LogicGrid = (props: {
   puzzle: Puzzle;
@@ -11,6 +12,28 @@ export const LogicGrid = (props: {
   const puzzle = props.puzzle;
 
   useEffect(() => {}, [props.outerGrid]);
+
+  const getCellPos = (row: number, col: number) => {
+    if (row === 0 && col === 0) {
+      return "topLeft";
+    } else if (row === 0 && col < puzzle.numItems - 1) {
+      return "top";
+    } else if (row === 0 && col === puzzle.numItems - 1) {
+      return "topRight";
+    } else if (row < puzzle.numItems - 1 && col === 0) {
+      return "centerLeft";
+    } else if (row < puzzle.numItems - 1 && col === puzzle.numItems - 1) {
+      return "centerRight";
+    } else if (row === puzzle.numItems - 1 && col === 0) {
+      return "bottomLeft";
+    } else if (row === puzzle.numItems - 1 && col < puzzle.numItems - 1) {
+      return "bottom";
+    } else if (row === puzzle.numItems - 1 && col === puzzle.numItems - 1) {
+      return "bottomRight";
+    } else {
+      return "inner";
+    }
+  };
 
   const generateGrid = (labels: {
     col: JSX.Element[][];
@@ -23,7 +46,7 @@ export const LogicGrid = (props: {
       row.col.forEach((category, j) => {
         const gridSquare: JSX.Element[] =
           // Very first cell is blank to allow for axis labels
-          i === 0 && j === 0 ? [<Box h="4rem" w="4rem" />] : [];
+          i === 0 && j === 0 ? [<Box className={classes.blankSquare} />] : [];
         // For first row include column labels
         if (i === 0) {
           labels.col[j].forEach((label) => gridSquare.push(label));
@@ -33,9 +56,14 @@ export const LogicGrid = (props: {
           if (j === 0) {
             gridSquare.push(labels.row[i][k]);
           }
-          category.items.forEach((colItem) => {
+          category.items.forEach((colItem, l) => {
             gridSquare.push(
-              <LogicGridCell item1={colItem} item2={rowItem} puzzle={puzzle} />
+              <LogicGridCell
+                item1={colItem}
+                item2={rowItem}
+                puzzle={puzzle}
+                pos={getCellPos(k, l)}
+              />
             );
           });
         });

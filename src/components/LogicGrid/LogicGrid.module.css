@@ -1,0 +1,8 @@
+.gridSquare {
+  border: 2px solid black;
+}
+
+.blankSquare {
+  height: var(--mantine-gridSizing-gridCell);
+  width: var(--mantine-gridSizing-gridCell);
+}

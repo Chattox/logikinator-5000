@@ -7,6 +7,7 @@ export const LogicGridCell = (props: {
   item1: string;
   item2: string;
   puzzle: Puzzle;
+  pos: string;
 }) => {
   const [link, setLink] = useState<string>(
     props.puzzle.getLink(props.item1, props.item2)
@@ -48,7 +49,7 @@ export const LogicGridCell = (props: {
   };
 
   return (
-    <Grid.Col span={1} className={classes.cell} onClick={cycleLink}>
+    <Grid.Col span={1} className={classes[props.pos]} onClick={cycleLink}>
       {getLinkIcon()}
     </Grid.Col>
   );

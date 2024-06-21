@@ -1,7 +1,13 @@
 .cell {
-  border: 1px solid white;
-  width: 4rem;
-  max-width: 4rem;
-  height: 4rem;
+  border: 1px solid black;
+  width: var(--mantine-gridSizing-gridCell);
+  max-width: var(--mantine-gridSizing-gridCell);
+  height: var(--mantine-gridSizing-gridCell);
   user-select: none;
+}
+
+.topLeft {
+  border-width: 4px 2px 2px 4px;
+  border-color: black;
+  border-style: solid;
 }
