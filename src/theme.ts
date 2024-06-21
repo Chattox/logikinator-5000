@@ -1,11 +1,11 @@
-import { CSSVariablesResolver, createTheme, rem } from "@mantine/core";
+import { CSSVariablesResolver, createTheme } from "@mantine/core";
 
 export const theme = createTheme({
   white: "#fbfbf9",
   defaultRadius: "5px",
   other: {
     gridSizing: {
-      gridCell: rem(64),
+      gridCell: "2rem",
     },
   },
 });

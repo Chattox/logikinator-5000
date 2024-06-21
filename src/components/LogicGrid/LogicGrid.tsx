@@ -1,4 +1,4 @@
-import { Box, Flex, Grid } from "@mantine/core";
+import { Box, Flex, Grid, useMantineTheme } from "@mantine/core";
 import { Puzzle } from "../../Puzzle/Puzzle";
 import { LogicGridCell } from "./LogicGridCell";
 import { LogicGridLabel } from "./LogicGridLabel";
@@ -10,6 +10,7 @@ export const LogicGrid = (props: {
   outerGrid: OuterGridRow[];
 }) => {
   const puzzle = props.puzzle;
+  const theme = useMantineTheme();
 
   useEffect(() => {}, [props.outerGrid]);
 
@@ -68,11 +69,22 @@ export const LogicGrid = (props: {
           });
         });
         gridRow.push(
+          // The sizing bit here is *extremely* hacky and I would prefer literally any other way to go about it
           <Grid
             columns={puzzle.numItems + (j === 0 ? 1 : 0)}
             gutter={0}
-            w={`${4 * (puzzle.numItems + (j === 0 ? 1 : 0))}rem`}
-            h={`${4 * (puzzle.numItems + (i === 0 ? 1 : 0))}rem`}
+            w={`${
+              Number(theme.other.gridSizing.gridCell[0]) *
+              (puzzle.numItems + (j === 0 ? 1 : 0))
+            }rem`}
+            maw={`${
+              Number(theme.other.gridSizing.gridCell[0]) *
+              (puzzle.numItems + (j === 0 ? 1 : 0))
+            }rem`}
+            h={`${
+              Number(theme.other.gridSizing.gridCell[0]) *
+              (puzzle.numItems + (i === 0 ? 1 : 0))
+            }rem`}
             className={classes.gridSquare}
           >
             {gridSquare}
