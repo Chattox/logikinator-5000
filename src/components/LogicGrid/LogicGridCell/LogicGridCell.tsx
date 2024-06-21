@@ -43,6 +43,7 @@ export const LogicGridCell = (props: {
         item2: props.item2,
         link: Boolean(link),
       });
+      setLink("unset");
     }
   };
 

@@ -3,12 +3,24 @@ export class Puzzle {
   numItems: number;
   gameState: GameState;
   outerGrid: OuterGridRow[];
+  categoryNames: string[];
 
   constructor() {
-    this.numCategories = 3;
-    this.numItems = 4;
-    this.gameState = { categories: [], links: [] };
+    this.numCategories = 4;
+    this.numItems = 3;
+    this.gameState = {
+      categories: [
+        { name: "Suspects", items: ["Maroon", "Cyan", "Avocado"] },
+        { name: "Murder Weapons", items: ["Knife", "Log", "Inflatable duck"] },
+        { name: "Locations", items: ["The Moon", "Music Festival", "Space"] },
+        { name: "Motives", items: ["Revenge", "Love", "The memes"] },
+      ],
+      links: [],
+    };
     this.outerGrid = [];
+    this.categoryNames = ["Suspects", "Murder Weapons", "Locations", "Motives"];
+
+    this.createOuterGrid();
   }
 
   /**
@@ -28,6 +40,7 @@ export class Puzzle {
     this.numCategories = input.length;
     this.numItems = input[0].items.length;
     this.gameState.categories = input;
+    this.categoryNames = input.map((cat) => cat.name);
   }
 
   /**
@@ -60,8 +73,7 @@ export class Puzzle {
       this.gameState.links = this.gameState.links.filter((l) => {
         return (
           l.item1 !== rmLink.item1 &&
-          l.item2 &&
-          rmLink.item2 &&
+          l.item2 !== rmLink.item2 &&
           l.link !== rmLink.link
         );
       });
