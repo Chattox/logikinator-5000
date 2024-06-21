@@ -1,7 +1,7 @@
 import { Grid } from "@mantine/core";
 import { Puzzle } from "../../../Puzzle/Puzzle";
-import classes from "./LogicGridCell.module.css";
 import { useState } from "react";
+import classes from "./LogicGridCell.module.css";
 
 export const LogicGridCell = (props: {
   item1: string;
@@ -49,7 +49,11 @@ export const LogicGridCell = (props: {
   };
 
   return (
-    <Grid.Col span={1} className={classes[props.pos]} onClick={cycleLink}>
+    <Grid.Col
+      span={1}
+      className={`${classes.cell} ${classes[props.pos]}`}
+      onClick={cycleLink}
+    >
       {getLinkIcon()}
     </Grid.Col>
   );

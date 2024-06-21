@@ -73,6 +73,7 @@ export const LogicGrid = (props: {
             gutter={0}
             w={`${4 * (puzzle.numItems + (j === 0 ? 1 : 0))}rem`}
             h={`${4 * (puzzle.numItems + (i === 0 ? 1 : 0))}rem`}
+            className={classes.gridSquare}
           >
             {gridSquare}
           </Grid>
