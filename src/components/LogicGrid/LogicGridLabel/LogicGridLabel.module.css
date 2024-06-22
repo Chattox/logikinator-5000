@@ -3,11 +3,13 @@
   height: var(--mantine-gridSizing-gridCell);
   text-align: center;
   white-space: nowrap;
-  transform: rotate(-45deg);
-  padding: 1.5rem 0 0 0.5rem;
+  transform: translate(0.75rem, 0rem) rotate(-45deg);
 }
 
 .rowLabel {
   height: var(--mantine-gridSizing-gridCell);
   width: var(--mantine-gridSizing-gridCell);
+  transform: translate(-2rem, 0);
+  text-align: right;
+  line-height: 32px;
 }

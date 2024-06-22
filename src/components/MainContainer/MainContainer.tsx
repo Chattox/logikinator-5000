@@ -8,11 +8,11 @@ export const MainContainer = (props: { puzzle: Puzzle }) => {
   const [outerGrid, setOuterGrid] = useState(props.puzzle.outerGrid);
 
   return (
-    <Center>
-      <Box>
-        <GridSettings puzzle={props.puzzle} setOuterGrid={setOuterGrid} />
+    <Box>
+      <GridSettings puzzle={props.puzzle} setOuterGrid={setOuterGrid} />
+      <Center>
         <LogicGrid puzzle={props.puzzle} outerGrid={outerGrid} />
-      </Box>
-    </Center>
+      </Center>
+    </Box>
   );
 };
