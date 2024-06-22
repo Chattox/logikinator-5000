@@ -1,3 +1,20 @@
 .settingsContainer {
   margin-bottom: 2rem;
+  padding: 0rem 2rem 0rem 2rem;
+}
+
+.topControls {
+  margin-bottom: 1rem;
+}
+
+.numInput {
+  max-width: 4rem;
+}
+
+.textInput {
+  margin: 0.25rem;
+}
+
+.submitButton {
+  margin-top: 1rem;
 }

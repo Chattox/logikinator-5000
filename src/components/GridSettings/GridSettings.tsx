@@ -77,6 +77,7 @@ export const GridSettings = (props: {
         <TextInput
           key={form.key(`categories.${i}.name`)}
           {...form.getInputProps(`categories.${i}.name`)}
+          className={classes.textInput}
         />
       );
     }
@@ -90,6 +91,7 @@ export const GridSettings = (props: {
         <TextInput
           key={form.key(`categories.${itemCategory.index}.items.${i}`)}
           {...form.getInputProps(`categories.${itemCategory.index}.items.${i}`)}
+          className={classes.textInput}
         />
       );
     }
@@ -104,6 +106,7 @@ export const GridSettings = (props: {
         value={itemCategory.name}
         onChange={handleItemCategoryChange}
         data={form.getValues().categories.map((cat) => cat.name)}
+        className={classes.textInput}
       />
       {generateItemFields()}
     </>
@@ -111,30 +114,40 @@ export const GridSettings = (props: {
 
   return (
     <Box className={classes.settingsContainer}>
-      <Group>
+      <Group
+        justify="space-between"
+        align="flex-end"
+        className={classes.topControls}
+      >
         <SegmentedControl
           value={formState}
           onChange={setFormState}
           data={["categories", "items"]}
         />
-        <NumberInput
-          label={`No. of categories`}
-          min={2}
-          clampBehavior="strict"
-          value={numCategories}
-          onChange={handleNumCategoriesChange}
-        />
-        <NumberInput
-          label={`No. of items`}
-          min={2}
-          clampBehavior="strict"
-          value={numItems}
-          onChange={(val) => setNumItems(Number(val))}
-        />
+        <Group>
+          <NumberInput
+            label={`# Cats`}
+            min={2}
+            clampBehavior="strict"
+            value={numCategories}
+            onChange={handleNumCategoriesChange}
+            className={classes.numInput}
+          />
+          <NumberInput
+            label={`# Items`}
+            min={2}
+            clampBehavior="strict"
+            value={numItems}
+            onChange={(val) => setNumItems(Number(val))}
+            className={classes.numInput}
+          />
+        </Group>
       </Group>
       <form onSubmit={form.onSubmit(handleOnSubmit)}>
         {formState === "categories" ? categoryFields : itemFields}
-        <Button type="submit">Generate</Button>
+        <Button type="submit" className={classes.submitButton}>
+          Generate
+        </Button>
       </form>
     </Box>
   );
